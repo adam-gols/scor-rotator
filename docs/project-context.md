@@ -84,9 +84,9 @@
 | Field | Value |
 |-------|-------|
 | Team secrets source | `1Password Environment: scor-rotator Development` |
-| .env mount path | `.env` (project root — mount in Phase 5b) |
+| .env mount path | `.env` (project root — `~/Documents/scor-rotator/.env`) |
 | Cursor plugin | 1Password (Cursor Marketplace) |
-| 1Password setup complete | `partial (Environment created; mount after bootstrap)` |
+| 1Password setup complete | `yes` |
 | Local setup | Mount Environment → `.env`; run `./scripts/setup-env` to verify |
 | First clone guide | [joining-a-project.md](./joining-a-project.md) |
 | CI secrets | `[GitHub Actions — when CI exists]` |
