@@ -32,7 +32,7 @@ pnpm run deploy
 - Name: `SCOR_STREAMS_API_URL`
 - Value: the Worker URL (no trailing slash)
 
-6. Update [`electron/streamsApiUrl.ts`](../../electron/streamsApiUrl.ts) default if you want local packaged builds to match without the env var.
+6. The default URL is baked into [`electron/main.ts`](../../electron/main.ts) (`BAKED_STREAMS_API_URL`). CI overwrites it from `SCOR_STREAMS_API_URL` when building Releases.
 
 ## Endpoints
 

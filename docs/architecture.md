@@ -29,7 +29,7 @@ Dev (contributors)
 | Playlist helpers | `src/lib/playlist.ts` | URL/duration validation, next index |
 | Storage | `src/lib/storage.ts` | localStorage persistence |
 | Electron main | `electron/main.ts` | Windows, Load Today (proxy or Airtable), IPC |
-| Streams API URL | `electron/streamsApiUrl.ts` | Baked public proxy base URL |
+| Streams API URL | `electron/main.ts` (`BAKED_STREAMS_API_URL`) | Baked public proxy base URL |
 | Preload bridge | `electron/preload.ts` | `window.playback` / `window.airtable` |
 | Streams proxy | `workers/streams-api/` | Holds `AIRTABLE_TOKEN`; `GET /today` |
 
