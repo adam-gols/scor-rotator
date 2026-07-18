@@ -60,9 +60,11 @@ export default function App() {
   }, [run.loop])
 
   useEffect(() => {
-    if (!window.airtable || !airtableToken) return
-    void window.airtable.setToken(airtableToken)
-  }, [airtableToken])
+    // Optional developer override only — do not pass a token on Load Today.
+    if (!window.airtable) return
+    const saved = loadAirtableToken().trim()
+    if (saved) void window.airtable.setToken(saved)
+  }, [])
 
   function clearTimers() {
     if (timerRef.current != null) window.clearTimeout(timerRef.current)
@@ -343,8 +345,8 @@ export default function App() {
     }
 
     try {
-      setRun((r) => ({ ...r, status: 'Loading today view from Airtable…' }))
-      const res = await window.airtable.loadTodayView(airtableToken || undefined)
+      setRun((r) => ({ ...r, status: 'Loading today view…' }))
+      const res = await window.airtable.loadTodayView()
       const nextItems: PlaylistItem[] = res.items.map((x) => ({
         id: crypto.randomUUID(),
         name: x.name,
@@ -397,7 +399,7 @@ export default function App() {
                     type="button"
                     onClick={() => void loadTodayFromAirtable()}
                   >
-                    Load Today (Airtable)
+                    Load Today
                   </button>
                 </>
               ) : null}
@@ -445,46 +447,51 @@ export default function App() {
                   Close
                 </button>
               </div>
-              <div style={{ marginTop: '0.75rem' }}>
-                <label htmlFor="airtable-token">
-                  Airtable Personal Access Token (optional override)
-                </label>
-                <input
-                  id="airtable-token"
-                  className="field"
-                  placeholder="Prefer AIRTABLE_TOKEN from 1Password .env"
-                  value={airtableToken}
-                  onChange={(e) => setAirtableToken(e.target.value)}
-                />
-                <div className="toolbar" style={{ marginTop: '0.5rem' }}>
-                  <button
-                    className="btn btn-primary"
-                    type="button"
-                    onClick={() => {
-                      saveAirtableToken(airtableToken.trim())
-                      void window.airtable?.setToken(airtableToken.trim())
-                      setRun((r) => ({
-                        ...r,
-                        status: 'Saved Airtable token override locally on this computer.',
-                      }))
-                    }}
-                  >
-                    Save Token
-                  </button>
-                  <button
-                    className="btn"
-                    type="button"
-                    onClick={() => {
-                      setAirtableToken('')
-                      saveAirtableToken('')
-                      void window.airtable?.setToken('')
-                      setRun((r) => ({ ...r, status: 'Cleared Airtable token override.' }))
-                    }}
-                  >
-                    Clear
-                  </button>
+              <p style={{ marginTop: '0.75rem', opacity: 0.85 }}>
+                Packaged apps load today’s streams automatically — no API key needed. The field
+                below is only for developers who want a local Airtable token override.
+              </p>
+              <details style={{ marginTop: '0.75rem' }}>
+                <summary>Advanced: Airtable token override</summary>
+                <div style={{ marginTop: '0.75rem' }}>
+                  <label htmlFor="airtable-token">Airtable Personal Access Token</label>
+                  <input
+                    id="airtable-token"
+                    className="field"
+                    placeholder="Leave empty to use the streams proxy / .env"
+                    value={airtableToken}
+                    onChange={(e) => setAirtableToken(e.target.value)}
+                  />
+                  <div className="toolbar" style={{ marginTop: '0.5rem' }}>
+                    <button
+                      className="btn btn-primary"
+                      type="button"
+                      onClick={() => {
+                        saveAirtableToken(airtableToken.trim())
+                        void window.airtable?.setToken(airtableToken.trim())
+                        setRun((r) => ({
+                          ...r,
+                          status: 'Saved Airtable token override locally on this computer.',
+                        }))
+                      }}
+                    >
+                      Save Token
+                    </button>
+                    <button
+                      className="btn"
+                      type="button"
+                      onClick={() => {
+                        setAirtableToken('')
+                        saveAirtableToken('')
+                        void window.airtable?.setToken('')
+                        setRun((r) => ({ ...r, status: 'Cleared Airtable token override.' }))
+                      }}
+                    >
+                      Clear
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </details>
             </div>
           ) : null}
         </div>
@@ -564,7 +571,7 @@ export default function App() {
               )
             })}
             {!items.length ? (
-              <div className="empty">No URLs yet. Click “Add URL” or Load Today (Airtable).</div>
+              <div className="empty">No URLs yet. Click “Add URL” or Load Today.</div>
             ) : null}
           </div>
         </section>

@@ -1,6 +1,6 @@
 const KEY = 'scor-rotator.airtableToken.v1'
 
-/** Optional local override; prefer AIRTABLE_TOKEN from mounted .env in Electron. */
+/** Optional local override for developers; packaged apps use the streams proxy. */
 export function loadAirtableToken(): string {
   try {
     return localStorage.getItem(KEY) ?? ''

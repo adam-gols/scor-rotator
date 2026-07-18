@@ -19,7 +19,8 @@ alwaysApply: true
 ## Conventions
 
 - Airtable access only via Electron main IPC (`window.airtable`)
+- Packaged builds load today via streams proxy (`SCOR_STREAMS_API_URL`); no user API keys
+- Dev: `AIRTABLE_TOKEN` from 1Password-mounted `.env`, or optional Settings override, or proxy URL
 - Playback window via `window.playback` in Electron; browser popup fallback in Vite-only mode
-- Secrets: `AIRTABLE_TOKEN` from 1Password-mounted `.env` — never commit real tokens
 - Brand: import logos from `brand/logos/`; CSS vars from `src/styles/brand.css`
 - Ignore Vite watch on `**/.env` (1Password mount)

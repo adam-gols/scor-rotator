@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain, shell } from 'electron'
 import path from 'node:path'
 import dotenv from 'dotenv'
+import { STREAMS_API_URL as BAKED_STREAMS_API_URL } from './streamsApiUrl'
 
 const isDev = !app.isPackaged
 
@@ -110,10 +111,51 @@ function airtableConfig() {
   }
 }
 
+/** Public proxy URL — packaged builds use the baked default; dev may override via env. */
+function streamsApiBase(): string {
+  const fromEnv = (process.env.SCOR_STREAMS_API_URL || '').trim().replace(/\/$/, '')
+  if (fromEnv) return fromEnv
+  return BAKED_STREAMS_API_URL.replace(/\/$/, '')
+}
+
+async function fetchTodayFromProxy(): Promise<Array<{ name: string; url: string }>> {
+  const base = streamsApiBase()
+  if (!base) {
+    throw new Error(
+      'Streams API URL is not configured. Set SCOR_STREAMS_API_URL or deploy workers/streams-api.',
+    )
+  }
+
+  const res = await fetch(`${base}/today`)
+  const text = await res.text().catch(() => '')
+  let data: { ok?: boolean; items?: Array<{ name: string; url: string }>; error?: string }
+  try {
+    data = JSON.parse(text) as typeof data
+  } catch {
+    throw new Error(`Streams API returned non-JSON (${res.status}): ${text.slice(0, 200)}`)
+  }
+
+  if (!res.ok || !data.ok) {
+    throw new Error(`Streams API failed (${res.status}): ${data.error || text || res.statusText}`)
+  }
+
+  const items = Array.isArray(data.items) ? data.items : []
+  console.log(`[streams-api] fetched usableStreams=${items.length} from ${base}`)
+  return items.map((x) => ({
+    name: typeof x.name === 'string' ? x.name : '',
+    url: typeof x.url === 'string' ? x.url : '',
+  }))
+}
+
 async function airtableFetchAllFromView(
   tokenOverride?: string,
 ): Promise<Array<{ name: string; url: string }>> {
-  const token = tokenOverride || airtableTokenOverride || process.env.AIRTABLE_TOKEN
+  // Re-read mounted .env in case 1Password auth completed after process start.
+  if (isDev) {
+    dotenv.config({ path: path.join(process.cwd(), '.env'), override: false })
+  }
+
+  const token = (tokenOverride || airtableTokenOverride || process.env.AIRTABLE_TOKEN || '').trim()
   if (!token)
     throw new Error('Missing Airtable token. Set AIRTABLE_TOKEN in 1Password .env or Settings.')
 
@@ -154,7 +196,11 @@ async function airtableFetchAllFromView(
 
     if (!res.ok) {
       const text = await res.text().catch(() => '')
-      throw new Error(`Airtable request failed (${res.status}): ${text || res.statusText}`)
+      const hint =
+        res.status === 401
+          ? ' Check Settings for a stale token override, or clear it to use AIRTABLE_TOKEN from .env.'
+          : ''
+      throw new Error(`Airtable request failed (${res.status}): ${text || res.statusText}.${hint}`)
     }
 
     const data = (await res.json()) as { records: AirtableRecord[]; offset?: string }
@@ -174,6 +220,30 @@ async function airtableFetchAllFromView(
   return out
 }
 
+/**
+ * Packaged builds use the public streams proxy (no user keys).
+ * Dev: proxy if SCOR_STREAMS_API_URL is set; else direct Airtable via .env / Settings.
+ * Explicit token override always uses direct Airtable (developer path).
+ */
+async function loadTodayStreams(
+  tokenOverride?: string,
+): Promise<Array<{ name: string; url: string }>> {
+  const explicitToken = (tokenOverride || airtableTokenOverride || '').trim()
+  if (explicitToken) {
+    return airtableFetchAllFromView(tokenOverride)
+  }
+
+  if (!isDev) {
+    return fetchTodayFromProxy()
+  }
+
+  if ((process.env.SCOR_STREAMS_API_URL || '').trim()) {
+    return fetchTodayFromProxy()
+  }
+
+  return airtableFetchAllFromView(tokenOverride)
+}
+
 app.whenReady().then(() => {
   createMainWindow()
 
@@ -183,7 +253,7 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('airtable:loadTodayView', async (_evt, token?: string) => {
-    const items = await airtableFetchAllFromView(typeof token === 'string' ? token : undefined)
+    const items = await loadTodayStreams(typeof token === 'string' ? token : undefined)
     return { ok: true as const, items }
   })
 
