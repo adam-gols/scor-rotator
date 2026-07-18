@@ -14,7 +14,7 @@
     "test:watch": "vitest",
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write .",
-    "electron:build": "tsc -p electron/tsconfig.json && node scripts/rename-electron-cjs.mjs",
+    "electron:build": "node scripts/write-streams-api-url.mjs && tsc -p electron/tsconfig.json && node scripts/rename-electron-cjs.mjs",
     "electron:dev": "concurrently -k \"vite --host\" \"wait-on http://localhost:5173 && pnpm run electron:build && electron .\"",
     "electron:dist": "pnpm run build && pnpm run electron:build && electron-builder",
     "typecheck": "tsc --noEmit"
@@ -48,6 +48,9 @@
   "build": {
     "appId": "com.gols.scor-rotator",
     "productName": "SCOR Rotator",
+    "directories": {
+      "output": "release"
+    },
     "files": [
       "dist/**",
       "electron-dist/**",

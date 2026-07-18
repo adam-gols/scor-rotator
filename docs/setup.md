@@ -56,4 +56,6 @@ pnpm run dev:renderer
 pnpm run electron:dist
 ```
 
-Outputs platform installers via electron-builder.
+Outputs platform installers into `release/` via electron-builder.
+
+Operators should use [GitHub Releases](https://github.com/adam-gols/scor-rotator/releases) (no local build). Ops: deploy [workers/streams-api](../workers/streams-api/README.md), set Actions variable `SCOR_STREAMS_API_URL`, then tag `v*`.

@@ -21,7 +21,8 @@
 
 - No iframes for playback
 - Playlist persists in localStorage
-- Prefer Airtable token from mounted `.env`; Settings override is optional and local-only
+- Packaged apps load today via streams proxy (no user API keys)
+- Dev: Airtable token from mounted `.env`, or optional Settings override, or `SCOR_STREAMS_API_URL`
 
 ### Out of scope (for now)
 
@@ -45,6 +46,7 @@
 |------|---------|
 | `src/` | React renderer |
 | `electron/` | Main process + preload |
+| `workers/streams-api/` | Cloudflare Worker streams proxy |
 | `scripts/` | dev, test, lint, setup-env, validate-brand |
 | `brand/` | GOLS brand kit |
 | `docs/` | Project documentation |
@@ -89,18 +91,19 @@
 | 1Password setup complete | `partial (Environment created; mount after bootstrap)` |
 | Local setup | Mount Environment → `.env`; run `./scripts/setup-env` to verify |
 | First clone guide | [joining-a-project.md](./joining-a-project.md) |
-| CI secrets | `[GitHub Actions — when CI exists]` |
-| Policy | Real values never in git — see [secrets.md](./secrets.md) |
+| CI secrets | `AIRTABLE_TOKEN` on Cloudflare Worker only; Actions var `SCOR_STREAMS_API_URL` (public URL) |
+| Policy | Real values never in git — see [secrets.md](./secrets.md). Packaged apps use streams proxy. |
 
 ## Environment variables
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `APP_ENV` | yes | App environment label |
-| `AIRTABLE_TOKEN` | for Load Today | Airtable personal access token |
-| `AIRTABLE_BASE_ID` | yes | Airtable base id |
-| `AIRTABLE_TABLE_ID` | yes | Streams table id |
-| `AIRTABLE_VIEW_ID` | yes | Today view id |
+| `APP_ENV` | yes (dev) | App environment label |
+| `AIRTABLE_TOKEN` | local Load Today without proxy | Airtable personal access token |
+| `AIRTABLE_BASE_ID` | optional | Airtable base id (has default) |
+| `AIRTABLE_TABLE_ID` | optional | Streams table id (has default) |
+| `AIRTABLE_VIEW_ID` | optional | Today view id (has default) |
+| `SCOR_STREAMS_API_URL` | release builds; optional in dev | Public streams proxy base URL |
 
 See `.env.example` for fake values.
 
@@ -108,7 +111,8 @@ See `.env.example` for fake values.
 
 | Service | Purpose | Env vars | Docs |
 |---------|---------|----------|------|
-| Airtable | Today’s stream URLs | `AIRTABLE_*` | Airtable API |
+| Streams proxy | Today’s stream URLs for packaged apps | `SCOR_STREAMS_API_URL` | [workers/streams-api/README.md](../workers/streams-api/README.md) |
+| Airtable | Dev fallback / Worker upstream | `AIRTABLE_*` | Airtable API |
 
 ## Data model (high level)
 
@@ -125,14 +129,15 @@ Primary user groups:
 
 | Role / group | Capabilities |
 |------|--------------|
-| SCOR | Load today's streams from Airtable, manage playlist, start/stop rotation, monitor playback |
+| SCOR | Download Release, Load Today, manage playlist, start/stop rotation, monitor playback |
 
 ## Deployment
 
 | Environment | URL / target | Notes |
 |-------------|--------------|-------|
 | Local | Electron desktop | `./scripts/dev` |
-| Production | Packaged app | `pnpm run electron:dist` |
+| Production | GitHub Releases | Tag `v*`; Mac `.dmg` + Windows `.exe` |
+| Streams API | Cloudflare Worker | Holds `AIRTABLE_TOKEN` |
 
 ## Priorities
 

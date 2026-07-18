@@ -1,0 +1,68 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  # Public Worker URL (not a secret). Set as a repo Actions variable after deploy.
+  SCOR_STREAMS_API_URL: ${{ vars.SCOR_STREAMS_API_URL }}
+
+jobs:
+  release:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            artifact_glob: 'release/*.dmg'
+          - os: windows-latest
+            artifact_glob: 'release/*.exe'
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Require streams API URL
+        shell: bash
+        run: |
+          if [ -z "${SCOR_STREAMS_API_URL}" ]; then
+            echo "Set repository variable SCOR_STREAMS_API_URL to your Worker URL (see workers/streams-api/README.md)."
+            exit 1
+          fi
+          echo "Using SCOR_STREAMS_API_URL=${SCOR_STREAMS_API_URL}"
+
+      - name: Build installers
+        env:
+          # electron-builder output dir (avoid clashing with Vite's dist/)
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: pnpm run electron:dist
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ matrix.artifact_glob }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

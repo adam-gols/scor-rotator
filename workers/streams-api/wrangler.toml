@@ -1,0 +1,9 @@
+name = "scor-rotator-streams"
+main = "src/index.ts"
+compatibility_date = "2025-03-01"
+
+# Non-secret Airtable IDs (same as app defaults). Token is a Wrangler secret.
+[vars]
+AIRTABLE_BASE_ID = "appbP3QMzpB7ZaW7W"
+AIRTABLE_TABLE_ID = "tblgMy87FGUjJdd11"
+AIRTABLE_VIEW_ID = "viwWeCzdCv6GmEdcj"
