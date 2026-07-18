@@ -1,7 +1,7 @@
 {
   "name": "scor-rotator",
   "private": true,
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "SCOR Stream Rotator \u2014 rotates playback through Airtable stream URLs",
   "type": "module",
   "main": "electron-dist/main.cjs",
