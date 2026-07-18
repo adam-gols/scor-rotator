@@ -1,25 +1,25 @@
 ---
-description: Project-specific stack and conventions — fill in after bootstrap
+description: Project-specific stack and conventions — SCOR Rotator
 alwaysApply: true
 ---
 
 # Project-specific
 
-> Edit this file after bootstrap with your actual stack, paths, and naming rules.
-
 ## Stack
 
-- Project: `[PROJECT_NAME]`
-- Language: `[TBD]`
-- Framework: `[TBD]`
+- Project: `SCOR Rotator`
+- Language: `TypeScript`
+- Framework: `Electron + Vite + React`
 
 ## Paths
 
-- Source: `[TBD — e.g. src/]`
-- Tests: `[TBD — e.g. co-located *.test.ts]`
+- Source: `src/` (renderer), `electron/` (main/preload)
+- Tests: co-located `*.test.ts` (Vitest)
 
 ## Conventions
 
-- `[Add naming, import, or API patterns once chosen]`
-
-Until filled in, follow choices in `docs/bootstrap-spec.md` and `docs/project-context.md`.
+- Airtable access only via Electron main IPC (`window.airtable`)
+- Playback window via `window.playback` in Electron; browser popup fallback in Vite-only mode
+- Secrets: `AIRTABLE_TOKEN` from 1Password-mounted `.env` — never commit real tokens
+- Brand: import logos from `brand/logos/`; CSS vars from `src/styles/brand.css`
+- Ignore Vite watch on `**/.env` (1Password mount)

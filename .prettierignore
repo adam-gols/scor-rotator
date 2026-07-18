@@ -1,0 +1,16 @@
+dist
+electron-dist
+release
+node_modules
+pnpm-lock.yaml
+brand
+*.png
+*.md
+docs
+templates
+.cursor
+AGENTS.md
+CONTRIBUTING.md
+GETTING_STARTED.md
+PROMPT.md
+AI_REPO_CONTEXT.md

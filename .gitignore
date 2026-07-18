@@ -6,6 +6,8 @@ __pycache__/
 .venv/
 venv/
 dist/
+electron-dist/
+release/
 build/
 .next/
 out/

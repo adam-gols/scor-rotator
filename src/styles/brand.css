@@ -1,0 +1,54 @@
+/* GOLS brand CSS variables — from brand/tokens.json */
+
+:root {
+  --gols-cardinal-red: #c62128;
+  --gols-black: #000000;
+  --gols-pumice-grey: #c7c9c7;
+  --gols-gallery-grey: #f0efef;
+  --gols-william-green: #37605f;
+  --gols-zodiac-blue: #0f1c41;
+  --gols-picton-blue: #4dc7e4;
+
+  --gols-font-display: 'Orbitron', sans-serif;
+  --gols-font-heading: 'Oswald', sans-serif;
+  --gols-font-body: 'Roboto', sans-serif;
+
+  --gols-color-primary: var(--gols-cardinal-red);
+  --gols-color-text: var(--gols-gallery-grey);
+  --gols-color-bg: var(--gols-zodiac-blue);
+  --gols-color-bg-muted: #162448;
+  --gols-color-border: var(--gols-william-green);
+}
+
+body {
+  margin: 0;
+  font-family: var(--gols-font-body);
+  color: var(--gols-color-text);
+  background: var(--gols-color-bg);
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--gols-font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+.gols-btn-primary {
+  background: var(--gols-cardinal-red);
+  color: #fff;
+  border: none;
+}
+
+.gols-btn-primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.gols-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

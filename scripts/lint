@@ -1,3 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
-"$(dirname "$0")/validate-brand"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+./scripts/validate-brand
+
+if [[ ! -d node_modules ]]; then
+  pnpm install
+fi
+
+exec pnpm run lint

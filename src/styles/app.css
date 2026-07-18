@@ -1,0 +1,299 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(77, 199, 228, 0.12), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 0%, rgba(198, 33, 40, 0.1), transparent),
+    var(--gols-zodiac-blue);
+}
+
+.app-header {
+  border-bottom: 1px solid var(--gols-color-border);
+  background: rgba(15, 28, 65, 0.85);
+  backdrop-filter: blur(8px);
+}
+
+.app-header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+}
+
+.app-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.app-title-block h1 {
+  font-size: 1.35rem;
+  color: #fff;
+  margin-top: 0.35rem;
+}
+
+.app-title-block p {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  color: var(--gols-pumice-grey);
+  max-width: 36rem;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btn {
+  border: 1px solid var(--gols-color-border);
+  background: var(--gols-color-bg-muted);
+  color: var(--gols-gallery-grey);
+  font-family: var(--gols-font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 0.85rem;
+  cursor: pointer;
+}
+
+.btn:hover:not(:disabled) {
+  border-color: var(--gols-picton-blue);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--gols-cardinal-red);
+  border-color: var(--gols-cardinal-red);
+  color: #fff;
+}
+
+.btn-accent {
+  background: var(--gols-william-green);
+  border-color: var(--gols-william-green);
+  color: #fff;
+}
+
+.bulk-duration {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--gols-color-border);
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.bulk-duration span {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--gols-pumice-grey);
+}
+
+.settings-panel {
+  margin-top: 1rem;
+  border: 1px solid var(--gols-color-border);
+  background: var(--gols-color-bg-muted);
+  padding: 1rem;
+}
+
+.settings-panel label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--gols-pumice-grey);
+  margin-bottom: 0.35rem;
+}
+
+.app-main {
+  flex: 1;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.25rem;
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  box-sizing: border-box;
+}
+
+@media (min-width: 900px) {
+  .app-main {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.panel {
+  border: 1px solid var(--gols-color-border);
+  background: rgba(22, 36, 72, 0.65);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--gols-color-border);
+}
+
+.panel-header h2 {
+  font-size: 0.95rem;
+  color: #fff;
+}
+
+.panel-body {
+  padding: 1rem;
+}
+
+.loop-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  color: var(--gols-gallery-grey);
+}
+
+.grid-head,
+.row {
+  display: grid;
+  grid-template-columns: 2fr 4fr 1.2fr auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.grid-head {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--gols-pumice-grey);
+  margin-bottom: 0.5rem;
+}
+
+.row {
+  border: 1px solid var(--gols-color-border);
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.row.active {
+  border-color: var(--gols-picton-blue);
+  background: rgba(77, 199, 228, 0.08);
+}
+
+.field {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--gols-color-border);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--gols-gallery-grey);
+  font-family: var(--gols-font-body);
+  font-size: 0.875rem;
+  padding: 0.4rem 0.5rem;
+}
+
+.field.invalid {
+  border-color: var(--gols-cardinal-red);
+}
+
+.field-error {
+  font-size: 0.75rem;
+  color: #f5a5a8;
+  margin-top: 0.2rem;
+}
+
+.row-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.icon-btn {
+  border: none;
+  background: transparent;
+  color: var(--gols-pumice-grey);
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+  font-size: 0.9rem;
+}
+
+.icon-btn:hover {
+  color: #fff;
+}
+
+.empty {
+  border: 1px dashed var(--gols-color-border);
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--gols-pumice-grey);
+  font-size: 0.875rem;
+}
+
+.status-list {
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.status-row .label {
+  color: var(--gols-pumice-grey);
+}
+
+.status-row .value.running {
+  color: var(--gols-picton-blue);
+}
+
+.status-message {
+  margin-top: 0.75rem;
+  border: 1px solid var(--gols-color-border);
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--gols-gallery-grey);
+  font-size: 0.875rem;
+}
+
+.notes ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--gols-pumice-grey);
+  font-size: 0.875rem;
+}
+
+.notes .hint {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--gols-pumice-grey);
+}
+
+.app-footer {
+  border-top: 1px solid var(--gols-color-border);
+  padding: 0.85rem 1rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--gols-pumice-grey);
+}
+
+@media (max-width: 700px) {
+  .grid-head {
+    display: none;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

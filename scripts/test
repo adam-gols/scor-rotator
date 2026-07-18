@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
-echo "Placeholder: replace during bootstrap (Phase 2)."
-echo "See docs/bootstrap-spec.md — Phase 4 requires a passing smoke test."
-exit 1
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+if [[ ! -d node_modules ]]; then
+  pnpm install
+fi
+
+exec pnpm test

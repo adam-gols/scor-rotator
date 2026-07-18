@@ -1,20 +1,23 @@
 # Decision: Initial stack
 
-> Replace content during bootstrap, or delete if stack choices are trivial.
-
 ## Context
 
-Starting a new project from the Template repo. Need to pick a minimal stack for bare-bones delivery.
+Remake of SCOR Stream Rotator (`adam-gols/scor` / local `SCORStreamRotator`) under the GOLS project template: 1Password secrets, brand kit, scripts, and PR workflow.
 
 ## Decision
 
-`[Describe chosen frontend, backend, database, auth, and test tooling]`
+- **TypeScript** + **Vite** + **React 18** renderer
+- **Electron** for Windows/Mac desktop shell and playback window
+- **Airtable REST** from main process (no local database)
+- **pnpm**, **Vitest**, **ESLint**, **Prettier**
+- Secrets via **1Password Environment** `scor-rotator Development` mounted to `.env`
 
 ## Reasoning
 
-`[Why these choices fit the product and team]`
+Matches the proven previous app while aligning with template standards (env mounts, brand assets, `./scripts/*`, smoke tests). Electron avoids iframe restrictions and gives a dedicated playback window.
 
 ## Consequences
 
-- `[Tradeoff 1]`
-- `[Follow-up work]`
+- GUI packaging needs electron-builder per platform
+- Headless CI can run Vitest without launching Electron
+- Airtable view/field names are coupled to the existing base schema

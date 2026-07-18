@@ -1,64 +1,71 @@
-# Project Template
+# SCOR Rotator
 
-Give this folder to anyone starting a new project. They open it in Cursor, start Agent chat, and the AI handles the rest.
+Rotates between live stream URLs using Airtable — desktop app for Windows and Mac (Electron).
 
-## Quick start (recipients)
+## First-time setup (new teammate)
 
-1. **Get the template** — copy this folder, or use GitHub **Use this template** (see [Publishing](#publishing-as-a-github-template) below).
-2. **Open the folder in Cursor.**
-3. **Open Agent chat** (Cmd+I / Ctrl+I) and send any message — e.g. `start`.
+**Cloning this repo for the first time?** Secrets are in **1Password**, not git.
 
-The agent will:
+1. Accept your **1Password Teams** invite
+2. Install the **1Password Cursor plugin** (Cursor Settings → Plugins)
+3. Clone and enter the repo:
 
-- Interview you in short batches (project name, stack, users)
-- **Choose the best programming language** for you (not asked)
-- **Always create a GitHub repo** and clone it to **`~/Documents/<your-project>`**
-- Bootstrap a bare-bones app with tests and scripts
+```bash
+git clone https://github.com/adam-gols/scor-rotator.git
+cd scor-rotator
+```
 
-**Required:** [GitHub CLI](https://cli.github.com/) — run `gh auth login` before starting.
+4. Open **`docs/project-context.md` → Secrets** for the Environment name (`scor-rotator Development`)
+5. **Mount** that Environment → `.env` — see [docs/joining-a-project.md](./docs/joining-a-project.md)
+6. Verify and run:
 
-**Manual path:** [GETTING_STARTED.md](./GETTING_STARTED.md)
+```bash
+pnpm install
+./scripts/setup-env
+./scripts/dev
+```
 
-## What's included
+Or ask Cursor Agent: *"I just cloned this repo — help me mount 1Password .env"*
 
-| Path | Purpose |
-|------|---------|
-| [AGENTS.md](./AGENTS.md) | AI entry point |
-| [docs/onboarding-interview.md](./docs/onboarding-interview.md) | Interview script |
-| [docs/repo-setup.md](./docs/repo-setup.md) | Git + GitHub creation steps |
-| [brand/](./brand/) | GOLS guidelines, tokens, logos (auto-applied) |
-| [CONTRIBUTING.md](./CONTRIBUTING.md) | Branch + PR workflow (read first) |
-| [docs/git-workflow.md](./docs/git-workflow.md) | When to branch, commit, and push |
-| [docs/secrets.md](./docs/secrets.md) | 1Password Environments + mounted `.env` |
-| [docs/joining-a-project.md](./docs/joining-a-project.md) | First clone + mount `.env` (teammates) |
-| [docs/1password-guided-setup.md](./docs/1password-guided-setup.md) | Batch 8, mount, per-secret walkthrough |
-| [scripts/setup-env](./scripts/setup-env) | Verify 1Password `.env` mount after clone |
-| [docs/bootstrap-spec.md](./docs/bootstrap-spec.md) | Scaffold phases |
-| [scripts/create-project](./scripts/create-project) | Copy template → new folder + git |
-| [scripts/init-repo](./scripts/init-repo) | Git init in current folder |
-| [.cursor/hooks.json](./.cursor/hooks.json) | Auto-start onboarding in Agent |
-| [.cursor/rules/](./.cursor/rules/) | Cursor agent rules |
+## Prerequisites
 
-## Publishing as a GitHub template
+- Node 22+, pnpm 9+
+- 1Password Teams access (Mac/Linux for mounted `.env`)
 
-**For maintainers** — protect the master repo so nobody breaks it:
+## Commands
 
-1. **Settings → General → Template repository** → enable (shows **Use this template** button).
-2. **Settings → Branches** → protect `main` (PR required; push limited to you).
-3. **Do not give write access** to the template repo except maintainers.
-4. Tell people to use **Use this template**, not clone the master for their app.
+| Command | Description |
+|---------|-------------|
+| `./scripts/setup-env` | Verify 1Password `.env` mount |
+| `./scripts/dev` | Start Electron + Vite dev |
+| `./scripts/test` | Run Vitest |
+| `./scripts/lint` | Brand check + ESLint + Prettier |
+| `pnpm run electron:dist` | Build installers (dmg / nsis) |
 
-Full guide: [.github/TEMPLATE.md](./.github/TEMPLATE.md)
+## Environment variables
 
-Recipients: **Use this template** → clone **their** new repo → open in Cursor → Agent chat → `start`.
+Documented in `.env.example` (fake values). Real values: **1Password Environment** → mounted `.env`.
 
-## After bootstrap
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `APP_ENV` | yes | `development` / etc. |
+| `AIRTABLE_TOKEN` | for Load Today | Airtable personal access token |
+| `AIRTABLE_BASE_ID` | yes | Airtable base |
+| `AIRTABLE_TABLE_ID` | yes | Streams table |
+| `AIRTABLE_VIEW_ID` | yes | “Today” view |
 
-- [ ] Project folder with `.git` and initial commit
-- [ ] GitHub remote (if requested)
-- [ ] `./scripts/dev`, `./scripts/test`, `./scripts/lint` working
-- [ ] `docs/project-context.md` filled in
+Never commit real secrets.
+
+## Project docs
+
+- [Joining this project](./docs/joining-a-project.md) — first clone + 1Password mount
+- [Setup guide](./docs/setup.md)
+- [Project context](./docs/project-context.md)
+- [Secrets policy](./docs/secrets.md)
+- [Architecture](./docs/architecture.md)
+- [Contributing](./CONTRIBUTING.md)
+- [Agent instructions](./AGENTS.md)
 
 ## License
 
-Replace with your project's license.
+MIT

@@ -1,0 +1,79 @@
+{
+  "name": "scor-rotator",
+  "private": true,
+  "version": "0.1.0",
+  "description": "SCOR Stream Rotator — rotates playback through Airtable stream URLs",
+  "type": "module",
+  "main": "electron-dist/main.cjs",
+  "scripts": {
+    "dev:renderer": "vite",
+    "dev": "pnpm run electron:dev",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write .",
+    "electron:build": "tsc -p electron/tsconfig.json && node scripts/rename-electron-cjs.mjs",
+    "electron:dev": "concurrently -k \"vite --host\" \"wait-on http://localhost:5173 && pnpm run electron:build && electron .\"",
+    "electron:dist": "pnpm run build && pnpm run electron:build && electron-builder",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/node": "^22.13.4",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "jsdom": "^26.0.0",
+    "prettier": "^3.5.2",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.24.1",
+    "vite": "^6.1.0",
+    "vitest": "^3.0.5",
+    "wait-on": "^8.0.2"
+  },
+  "build": {
+    "appId": "com.gols.scor-rotator",
+    "productName": "SCOR Rotator",
+    "files": [
+      "dist/**",
+      "electron-dist/**",
+      "package.json"
+    ],
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.productivity",
+      "identity": null
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
+  },
+  "packageManager": "pnpm@10.33.3",
+  "engines": {
+    "node": ">=22"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron",
+      "esbuild"
+    ]
+  }
+}

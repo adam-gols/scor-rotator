@@ -6,23 +6,23 @@ Fill this in **before** scaffolding. Agents and humans use this as the source of
 
 | Field | Value |
 |-------|-------|
-| Project name | `[PROJECT_NAME]` |
-| Project type | `[ ] web-app` `[ ] api` `[ ] cli` `[ ] mobile` `[ ] monorepo` `[ ] library` |
-| Primary language | `[AI-selected — TypeScript / Python / Go / etc.]` |
-| Language rationale | `[One line — why this language fits]` |
-| License | `[MIT / Apache-2.0 / proprietary / other]` |
+| Project name | `SCOR Rotator` |
+| Project type | `desktop (Windows/Mac)` — Electron app (remake of adam-gols/scor) |
+| Primary language | `TypeScript` |
+| Language rationale | Matches the existing SCOR Stream Rotator (Electron + Vite + React) and fits desktop UI + Airtable IPC cleanly |
+| License | `MIT` |
 
 ## Repository
 
 | Field | Value |
 |-------|-------|
-| Project slug | `[my-app]` |
-| Local path | `~/Documents/[my-app]` |
+| Project slug | `scor-rotator` |
+| Local path | `~/Documents/scor-rotator` |
 | Git initialized | `yes` |
 | GitHub remote | `yes` (always) |
-| Remote URL | `[https://github.com/user/my-app]` |
+| Remote URL | `https://github.com/adam-gols/scor-rotator` |
 | Default branch | `main` |
-| Visibility | `[private/public]` |
+| Visibility | `public` |
 
 ## Stack choices
 
@@ -32,50 +32,50 @@ Pick **one per row** (mark with `[x]`). Delete unused rows in a copy if helpful.
 
 - [ ] None
 - [ ] Next.js (App Router)
-- [ ] Vite + React
+- [x] Vite + React
 - [ ] Vite + Vue
-- [ ] Other: `___`
+- [x] Other: `Electron (Windows/Mac desktop shell)`
 
 ### Backend (skip if none)
 
-- [ ] None (static / frontend-only)
+- [x] None (static / frontend-only)
 - [ ] Node — Fastify
 - [ ] Node — Express
 - [ ] Python — FastAPI
 - [ ] Python — Django
 - [ ] Go — stdlib / chi
-- [ ] Other: `___`
+- [x] Other: `Electron main process (Airtable IPC)`
 
 ### Data (skip if none)
 
-- [ ] None
+- [x] None
 - [ ] PostgreSQL
 - [ ] SQLite
 - [ ] MongoDB
-- [ ] ORM/query layer: `[Prisma / Drizzle / SQLAlchemy / none]`
+- [x] ORM/query layer: `none — Airtable API as source of truth`
 
 ### Auth (skip if none)
 
-- [ ] None for now
+- [x] None for now
 - [ ] Clerk
 - [ ] Auth0
 - [ ] Custom JWT/session
-- [ ] Other: `___`
+- [x] Other: `Airtable personal access token in Settings (1Password → .env)`
 
 ### Testing
 
 | Layer | Choice |
 |-------|--------|
-| Unit/integration | `[Vitest / Jest / pytest / go test / other]` |
-| E2E (optional) | `[Playwright / Cypress / none]` |
+| Unit/integration | `Vitest` |
+| E2E (optional) | `none` |
 
 ### Tooling
 
 | Tool | Choice |
 |------|--------|
-| Package manager | `[pnpm / npm / yarn / pip / poetry / go mod]` |
-| Lint | `[ESLint / Ruff / golangci-lint / none]` |
-| Format | `[Prettier / Black / gofmt / none]` |
+| Package manager | `pnpm` |
+| Lint | `ESLint` |
+| Format | `Prettier` |
 
 ## Non-negotiables
 
