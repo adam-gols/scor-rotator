@@ -1,7 +1,9 @@
 import { app, BrowserWindow, ipcMain, shell } from 'electron'
 import path from 'node:path'
 import dotenv from 'dotenv'
-import { STREAMS_API_URL as BAKED_STREAMS_API_URL } from './streamsApiUrl'
+
+/** Public streams proxy URL (not a secret). Rewritten by scripts/write-streams-api-url.mjs in CI. */
+const BAKED_STREAMS_API_URL = 'https://scor-rotator-streams.gols.workers.dev'
 
 const isDev = !app.isPackaged
 
