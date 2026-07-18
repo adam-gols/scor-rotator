@@ -1,7 +1,7 @@
 {
   "name": "scor-rotator",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "SCOR Stream Rotator — rotates playback through Airtable stream URLs",
   "type": "module",
   "main": "electron-dist/main.cjs",
@@ -16,7 +16,7 @@
     "format": "prettier --write .",
     "electron:build": "node scripts/write-streams-api-url.mjs && tsc -p electron/tsconfig.json && node scripts/rename-electron-cjs.mjs",
     "electron:dev": "concurrently -k \"vite --host\" \"wait-on http://localhost:5173 && pnpm run electron:build && electron .\"",
-    "electron:dist": "pnpm run build && pnpm run electron:build && electron-builder",
+    "electron:dist": "pnpm run build && pnpm run electron:build && electron-builder --publish never",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
