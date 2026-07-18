@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+echo "Placeholder: replace during bootstrap (Phase 2)."
+echo "See docs/bootstrap-spec.md and docs/setup.md."
+echo ""
+echo "Expected: start local development server for chosen stack."
+exit 1

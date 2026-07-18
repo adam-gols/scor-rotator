@@ -1,0 +1,12 @@
+---
+description: Security and secrets handling
+alwaysApply: true
+---
+
+# Security
+
+- Never commit secrets, API keys, tokens, or credentials.
+- Document env vars in `.env.example` with fake values only.
+- Do not log sensitive user data or expose internal errors to end users.
+- Do not disable auth, validation, lint, or tests to unblock work without explaining why.
+- Do not assume production data is safe to modify.

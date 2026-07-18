@@ -1,0 +1,16 @@
+---
+description: Collaboration — small diffs, existing patterns, brownfield behavior
+alwaysApply: true
+---
+
+# Collaboration
+
+Before changing code in an existing repo:
+
+1. Read relevant files and match existing patterns.
+2. Smallest safe diff; no unrelated changes or silent renames.
+3. Propose large refactors before doing them.
+
+For unfamiliar repos, output the repo understanding summary from `docs/conventions.md` before implementing.
+
+Update docs when setup, env vars, APIs, or architecture change.

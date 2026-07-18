@@ -1,0 +1,18 @@
+---
+description: Auto-start onboarding interview on first Agent message
+alwaysApply: true
+---
+
+# Auto onboarding
+
+When `docs/project-context.md` is missing or contains `[PLACEHOLDER]` / `[PROJECT_NAME]`:
+
+- **First agent reply** in a conversation: greet briefly and start Batch 1 from [docs/onboarding-interview.md](../../docs/onboarding-interview.md) using AskQuestion.
+- Batches 2–5 are separate turns: problem → users → workflows → out of scope. Never combine them.
+- **Batch 8:** 1Password Environment + Cursor plugin per [1password-guided-setup.md](../../docs/1password-guided-setup.md). Mount `.env` in Phase 5b.
+- Do not wait for PROMPT.md or manual doc reading.
+- sessionStart may inject `TEMPLATE ONBOARDING ACTIVE` — treat that as a hard start signal.
+
+After **Batch 9** approval: repo setup then bootstrap. See [005-repo-setup.mdc](./005-repo-setup.mdc).
+
+Git: [007-git-workflow.mdc](./007-git-workflow.mdc). Secrets: Batch 8 + per-secret guide per [008-secrets.mdc](./008-secrets.mdc).

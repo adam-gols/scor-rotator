@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+dist/
+build/
+.next/
+out/
+*.egg-info/
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.pem
+credentials.json
+
+# IDE and OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs and coverage
+*.log
+logs/
+coverage/
+.coverage
+htmlcov/
+.nyc_output/
+
+# Test and build artifacts
+*.tsbuildinfo
+.turbo/
+.cache/

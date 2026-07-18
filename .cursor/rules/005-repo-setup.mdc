@@ -1,0 +1,16 @@
+---
+description: Create GitHub repo and clone to ~/Documents — always, no optional GitHub
+alwaysApply: true
+---
+
+# Repository setup
+
+Follow [docs/repo-setup.md](../../docs/repo-setup.md):
+
+1. **Always** create a GitHub repo: `./scripts/create-project <slug> [--public|--private]`
+2. **Always** use local path `~/Documents/<slug>` (the clone from that script)
+3. **Never ask** primary language, GitHub yes/no, or folder location — AI picks language in Batch 3
+4. After bootstrap: commit and `git push -u origin main`
+5. User opens `~/Documents/<slug>` in Cursor
+
+Require `gh auth login` before create-project. Never commit secrets.

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Validate GOLS brand kit is present and complete.
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+fail() {
+  echo "validate-brand: $1" >&2
+  exit 1
+}
+
+[[ -f brand/tokens.json ]] || fail "missing brand/tokens.json"
+[[ -f brand/guidelines.md ]] || fail "missing brand/guidelines.md"
+
+python3 <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(".")
+tokens = json.loads((root / "brand/tokens.json").read_text())
+logos = tokens.get("logos", {})
+if not logos:
+    sys.exit("brand/tokens.json has no logos section")
+
+missing = [p for p in logos.values() if not (root / p).is_file()]
+if missing:
+    print("Missing logo files:", file=sys.stderr)
+    for p in missing:
+        print(f"  - {p}", file=sys.stderr)
+    sys.exit(1)
+PY
+
+echo "Brand kit OK ($(python3 -c "import json; print(json.load(open('brand/tokens.json'))['brand']['abbreviation'])"))"

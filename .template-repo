@@ -1,0 +1,7 @@
+# This directory is the master project template.
+
+If you opened this folder to **start a new project**, open Agent chat in Cursor and send any message — onboarding starts automatically.
+
+The agent will interview you, create a **new folder and git repo** for your project, optionally create a **GitHub repo**, and bootstrap the app.
+
+Do not develop your product in this Template folder unless you intentionally copied it elsewhere first.

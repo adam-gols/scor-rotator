@@ -1,0 +1,48 @@
+---
+description: GOLS brand tokens, logos, and UI styling rules
+globs: "**/*.{tsx,jsx,vue,css,scss,html,mdx}"
+alwaysApply: false
+---
+
+# GOLS brand
+
+Before UI, layout, marketing copy, or visual work:
+
+1. Read [brand/tokens.json](../../brand/tokens.json)
+2. Read [brand/guidelines.md](../../brand/guidelines.md) — logo, color, typography sections
+
+## Logos
+
+Use files under `brand/logos/` only. Paths from `tokens.json` → `logos`:
+
+| Context | Variant / file |
+|---------|----------------|
+| Favicon, mobile header, compact | `primary` |
+| Header/footer on light bg | `secondaryLightBg` |
+| Header/footer on dark bg | `secondaryDarkBg` |
+| Dark busy backgrounds | `secondaryAllWhite` |
+
+Copy [templates/Logo.tsx.template](../../templates/Logo.tsx.template) during bootstrap. Do not stretch, rotate, or recolor logos.
+
+## Colors
+
+Use CSS variables from [templates/brand.css.template](../../templates/brand.css.template). Primary CTA: `--gols-cardinal-red` (`#c62128`).
+
+**Never:** logo on Cardinal Red background; hardcoded hex outside tokens; logo over athlete faces.
+
+## Typography
+
+- **Oswald** — headings, all caps
+- **Roboto** — body, UI, email
+- **Orbitron** — display/numerals only, sparingly
+
+Load Google Fonts per `tokens.json` → `fonts.*.googleFonts`.
+
+## Bootstrap
+
+When scaffolding a frontend:
+
+- Copy `templates/brand.css.template` → `src/styles/brand.css` (import in app entry)
+- Copy `templates/Logo.tsx.template` → `src/components/Logo.tsx` (adjust import paths)
+- Use `<Logo />` in header; favicon from primary mark
+- Run `./scripts/validate-brand`

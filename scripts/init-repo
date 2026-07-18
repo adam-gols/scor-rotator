@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# Initialize git in the current project (optional GitHub remote).
+#
+# Usage:
+#   ./scripts/init-repo [--github] [--public|--private] [--commit-only]
+#
+# --commit-only  Skip init/gh; only stage and commit (repo already exists)
+set -euo pipefail
+
+GITHUB=false
+VISIBILITY="--private"
+COMMIT_ONLY=false
+MSG="Initial project scaffold"
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --github) GITHUB=true; shift ;;
+    --public) VISIBILITY="--public"; shift ;;
+    --private) VISIBILITY="--private"; shift ;;
+    --commit-only) COMMIT_ONLY=true; shift ;;
+    -m) MSG="${2:-Initial project scaffold}"; shift 2 ;;
+    -h|--help)
+      echo "Usage: $0 [--github] [--public|--private] [--commit-only] [-m message]"
+      exit 0
+      ;;
+    *) echo "Unknown argument: $1" >&2; exit 1 ;;
+  esac
+done
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+if [[ "$COMMIT_ONLY" != "true" ]]; then
+  if [[ ! -d .git ]]; then
+    git init -b main
+    echo "Initialized git repository."
+  fi
+
+  if [[ "$GITHUB" == "true" ]]; then
+    SLUG="$(basename "$ROOT")"
+    if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
+      if ! git remote get-url origin >/dev/null 2>&1; then
+        gh repo create "$SLUG" --source=. --remote=origin $VISIBILITY
+        echo "GitHub repo created: origin"
+      else
+        echo "Remote origin already configured."
+      fi
+    else
+      echo "Warning: gh unavailable or not authenticated. Skipping GitHub." >&2
+    fi
+  fi
+fi
+
+if git rev-parse --git-dir >/dev/null 2>&1; then
+  git add -A
+  if git diff --cached --quiet; then
+    echo "Nothing to commit."
+  else
+    git commit -m "$MSG"
+    echo "Committed: $MSG"
+  fi
+fi

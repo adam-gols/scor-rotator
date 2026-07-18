@@ -1,0 +1,24 @@
+---
+description: Bootstrap new projects from template — scaffold order and definition of done
+alwaysApply: false
+---
+
+# Bootstrap
+
+When the user asks to scaffold, initialize, or bootstrap — or the repo has no app source yet:
+
+**First:** if placeholders remain, onboarding per `000-onboarding.mdc`. After approval, Phase 0 repo setup per `005-repo-setup.mdc`.
+
+1. Read `docs/bootstrap-spec.md` and `docs/project-context.md`.
+2. Execute scaffold **phases 1–5** (Phase **2b** brand when frontend). Use `templates/`.
+3. Run `./scripts/validate-brand` before marking bootstrap complete.
+4. Stop when **Definition of done** in bootstrap-spec is satisfied.
+
+Do not:
+
+- Substitute a different stack without user approval
+- Skip smoke test, brand validation, or working scripts
+- Add dependencies without documenting in project-context or an ADR
+- Hardcode colors/logos outside `brand/`
+
+Prompt reference is at the bottom of `docs/bootstrap-spec.md`.

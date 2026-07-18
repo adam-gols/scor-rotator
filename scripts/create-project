@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# Create a GitHub repo from this template and clone it to ~/Documents/<slug>.
+#
+# Usage:
+#   ./scripts/create-project <project-slug> [--public|--private] [--template OWNER/REPO]
+#
+# Examples:
+#   ./scripts/create-project my-app
+#   ./scripts/create-project my-api --public
+#   ./scripts/create-project my-app --template adam-gols/project-template
+set -euo pipefail
+
+SLUG=""
+VISIBILITY="--private"
+TEMPLATE="${TEMPLATE_GITHUB_REPO:-adam-gols/project-template}"
+DOCUMENTS="${HOME}/Documents"
+
+usage() {
+  echo "Usage: $0 <project-slug> [--public|--private] [--template OWNER/REPO]" >&2
+  exit 1
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --public) VISIBILITY="--public"; shift ;;
+    --private) VISIBILITY="--private"; shift ;;
+    --template)
+      [[ $# -ge 2 ]] || usage
+      TEMPLATE="$2"
+      shift 2
+      ;;
+    -h|--help) usage ;;
+    *)
+      if [[ -z "$SLUG" ]]; then
+        SLUG="$1"
+      else
+        echo "Unknown argument: $1" >&2
+        usage
+      fi
+      shift
+      ;;
+  esac
+done
+
+[[ -n "$SLUG" ]] || usage
+
+if [[ ! "$SLUG" =~ ^[a-z0-9]([a-z0-9-]*[a-z0-9])?$ ]]; then
+  echo "Error: project slug must be lowercase letters, numbers, and hyphens only." >&2
+  exit 1
+fi
+
+TARGET="$DOCUMENTS/$SLUG"
+
+if [[ -e "$TARGET" ]]; then
+  echo "Error: target already exists: $TARGET" >&2
+  exit 1
+fi
+
+if ! command -v gh >/dev/null 2>&1; then
+  echo "Error: GitHub CLI (gh) is required. Install: https://cli.github.com/" >&2
+  exit 1
+fi
+
+if ! gh auth status >/dev/null 2>&1; then
+  echo "Error: gh not authenticated. Run: gh auth login" >&2
+  exit 1
+fi
+
+mkdir -p "$DOCUMENTS"
+cd "$DOCUMENTS"
+
+echo "Creating GitHub repo from template $TEMPLATE ..."
+gh repo create "$SLUG" --template "$TEMPLATE" $VISIBILITY --clone
+
+cd "$TARGET"
+
+echo ""
+echo "GitHub repo: $(gh repo view --json url -q .url)"
+echo "Local clone: $TARGET"
+echo "Open this folder in Cursor to continue."

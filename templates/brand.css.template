@@ -1,0 +1,44 @@
+/* GOLS brand CSS variables — from brand/tokens.json */
+/* Copy to src/styles/brand.css (or app/styles) during bootstrap */
+
+:root {
+  --gols-cardinal-red: #c62128;
+  --gols-black: #000000;
+  --gols-pumice-grey: #c7c9c7;
+  --gols-gallery-grey: #f0efef;
+  --gols-william-green: #37605f;
+  --gols-zodiac-blue: #0f1c41;
+  --gols-picton-blue: #4dc7e4;
+
+  --gols-font-display: 'Orbitron', sans-serif;
+  --gols-font-heading: 'Oswald', sans-serif;
+  --gols-font-body: 'Roboto', sans-serif;
+
+  --gols-color-primary: var(--gols-cardinal-red);
+  --gols-color-text: var(--gols-black);
+  --gols-color-bg: #ffffff;
+  --gols-color-bg-muted: var(--gols-gallery-grey);
+}
+
+/* Google Fonts — add to index.html or layout head:
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Oswald:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+*/
+
+body {
+  font-family: var(--gols-font-body);
+  color: var(--gols-color-text);
+  background: var(--gols-color-bg);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--gols-font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.gols-btn-primary {
+  background: var(--gols-cardinal-red);
+  color: #fff;
+  border: none;
+}

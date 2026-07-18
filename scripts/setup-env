@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# Verify 1Password Environment mount for .env — does NOT copy .env.example.
+#
+# Real secrets come from a mounted 1Password Environment, not a plaintext file.
+# See docs/secrets.md and docs/1password-guided-setup.md
+#
+# Usage: ./scripts/setup-env
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+ENV_FILE="$ROOT/.env"
+ENV_NAME=""
+MOUNT_PATH=".env"
+
+if [[ -f docs/project-context.md ]]; then
+  ENV_NAME="$(grep -F 'Team secrets source' docs/project-context.md 2>/dev/null | sed -n 's/.*Environment: //p' | tr -d '`|' || true)"
+fi
+
+echo "1Password Environment setup check"
+echo "================================="
+echo ""
+
+if [[ -n "$ENV_NAME" ]]; then
+  echo "Expected Environment: $ENV_NAME"
+else
+  echo "Expected Environment: [project-slug] Development (see docs/project-context.md → Secrets)"
+fi
+echo "Expected mount path:   $MOUNT_PATH"
+echo ""
+
+if [[ ! -f "$ENV_FILE" ]]; then
+  echo "No .env found at project root."
+  echo ""
+  echo "Mount your 1Password Environment:"
+  echo "  1. Open 1Password → Environments → [your-project] Development"
+  echo "  2. Destinations → Local .env file → Choose path:"
+  echo "     $ENV_FILE"
+  echo "  3. Click Mount .env file"
+  echo ""
+  echo "If a plaintext .env existed here before, delete it first — mounts need an empty path."
+  echo ""
+  echo "Windows: mounted .env is Mac/Linux only — use op run (docs/secrets.md)."
+  echo ""
+  echo "Full guides:"
+  echo "  docs/joining-a-project.md  (first clone checklist)"
+  echo "  docs/setup.md#mount-1password-environment  (step-by-step mount)"
+  exit 1
+fi
+
+echo "Found .env at project root."
+echo ""
+echo "Verify the mount works:"
+echo "  cat .env"
+echo ""
+echo "You should see a 1Password authorization prompt, then your variables."
+echo ""
+echo "Also install the 1Password Cursor plugin (Cursor Settings → Plugins)."
+echo ""
+echo "Never commit .env — it is gitignored."
+echo "Documented variables (fake values): .env.example"
+echo ""
+echo "Guides: docs/joining-a-project.md | docs/secrets.md"

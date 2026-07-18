@@ -1,0 +1,25 @@
+---
+description: Project-specific stack and conventions — fill in after bootstrap
+alwaysApply: true
+---
+
+# Project-specific
+
+> Edit this file after bootstrap with your actual stack, paths, and naming rules.
+
+## Stack
+
+- Project: `[PROJECT_NAME]`
+- Language: `[TBD]`
+- Framework: `[TBD]`
+
+## Paths
+
+- Source: `[TBD — e.g. src/]`
+- Tests: `[TBD — e.g. co-located *.test.ts]`
+
+## Conventions
+
+- `[Add naming, import, or API patterns once chosen]`
+
+Until filled in, follow choices in `docs/bootstrap-spec.md` and `docs/project-context.md`.
